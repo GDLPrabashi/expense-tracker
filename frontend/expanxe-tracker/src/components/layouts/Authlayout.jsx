@@ -1,5 +1,5 @@
 import React from 'react';
-import CARD_2 from "../../assets/images/cart2.PNG"
+import CARD_2 from "../../assets/images/cart22.png"
 import {LuTrendingUpDown} from "react-icons/lu"
 
 const Authlayout = ({ children }) => {
