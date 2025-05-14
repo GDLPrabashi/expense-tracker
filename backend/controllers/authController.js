@@ -6,7 +6,7 @@ const User = require("../models/User");
 
 const generateToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, {
-        expiresIn: "1h",
+        expiresIn: "30d",
     });
 };
 
@@ -25,7 +25,7 @@ exports.registerUser = async (req, res) => {
 
         const existingUser = await User.findOne({email});
         if(existingUser){
-            return  req.status(400).json({message:"User already exists"});
+            return  res.status(400).json({message:"User already exists"});
         }
 
         //create new user 
