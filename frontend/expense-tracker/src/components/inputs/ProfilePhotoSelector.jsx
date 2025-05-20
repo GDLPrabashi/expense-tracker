@@ -14,6 +14,8 @@ const ProfilePhotoSelector = ({image,setImage}) => {
             const preview = URL.createObjectURL(file);
             setPreviewUrl(preview);
         }
+
+        event.target.value = '';
     }
 
     const handleRemoveImage = () => {

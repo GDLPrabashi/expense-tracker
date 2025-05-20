@@ -33,6 +33,9 @@ app.use("/api/v1/income",incomeRoutes);
 app.use("/api/v1/expense",expanseRoutes);
 app.use("/api/v1/dashboard",dashboardRoutes);
 
+
+
+
 //serve uploads folder
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 

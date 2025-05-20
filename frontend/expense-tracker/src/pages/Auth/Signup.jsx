@@ -1,9 +1,13 @@
-import React,{ useState } from 'react'
+import React,{ useState,useContext } from 'react'
 import Authlayout from '../../components/layouts/Authlayout'
 import { useNavigate, Link } from 'react-router-dom'
 import Input from '../../components/inputs/input'
 import { validateEmail } from '../../utils/helper';
 import ProfilePhotoSelector from '../../components/inputs/ProfilePhotoSelector'
+import axiosInstance from '../../utils/axiosInstance';
+import { API_PATHS } from '../../utils/apiPaths';
+import { UserContext } from '../../context/UserContext'
+import uploadImage from '../../utils/uploadImage';
 
 const Signup = () => {
 
@@ -12,29 +16,75 @@ const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const [error, setError] = useState('null');
+  const [error, setError] = useState(null);
+  const {updateUser} = useContext(UserContext);
 
   const navigate = useNavigate();
   
   //handle signup form submit
 
-  const handleSignup = (e) => {
+  const handleSignup = async(e) => {
     e.preventDefault();
-  }
-
-  let profileImage ="";
-
-  if(!fullName || !email || !password) 
-    return setError('Please fill in all fields');
   
 
-  if(profilePic) profileImage = URL.createObjectURL(profilePic);
 
-  setError('null');
+  if(!fullName || !email || !password) {
+    setError('Please fill in all fields');
+    return;
+  }
+
+  if (!validateEmail(email)) {
+      setError('Invalid email format');
+      return;
+    }
+  
+
+  
+    setError(null);
+
+     let profileImageUrl = '';
+    // if (profilePic) {
+    //   profileImage = URL.createObjectURL(profilePic);
+    // }
+  
+
+   //if(profilePic) profileImage = URL.createObjectURL(profilePic);
+
+  // setError(null);
 
   //signup api call
 
+  try {
 
+    if(profilePic){
+      const imgUploadRes = await uploadImage(profilePic);
+      profileImageUrl = imgUploadRes.imageUrl || "";
+    }
+
+    const response = await axiosInstance.post(API_PATHS.AUTH.REGISTER, {
+      fullName,
+      email,
+      password,
+      profileImageUrl
+    })
+
+    const {token,user} = response.data;
+    
+    if(token){
+      localStorage.setItem('token',token);
+      updateUser(user);
+      navigate('/dashboard');
+    }
+  }catch (error) {
+    console.error("Signup error:", error);
+    if (error.response && error.response.data.message) {
+      setError(error.response.data.message);
+    }else{
+      setError('Error signing up user');
+    }
+  }
+
+  }
 
   return (
     <Authlayout>

@@ -22,7 +22,7 @@ EXPENSE:{
     DELETE_EXPENSE:(expenseId) =>`/api/v1/expense/${expenseId}`,
     DOWNLOAD_EXPENSE:"/api/v1/expense/download-expense"
 },
-Image :{
+IMAGE :{
     UPLOAD_IMAGE:"/api/v1/image/upload-image",
     
 }

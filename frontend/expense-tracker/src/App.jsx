@@ -5,11 +5,14 @@ import Login from './pages/Auth/Login'
 import Signup from './pages/Auth/Signup'
 import Income from './pages/Dashboard/Income'
 import Expense from './pages/Dashboard/Expense'
+import UserProvider from './context/UserContext'
 
-const App = () => {
+const App = ()=> {
   return (
-    <div>
     <Router>
+    <UserProvider>
+    <div>
+    
       <Routes>
         <Route path="/" element={<Root/>} />
         <Route path="/login" element={<Login />} />
@@ -18,8 +21,10 @@ const App = () => {
         <Route path="/income" element={<Income />} />
         <Route path="/expense" element={<Expense />} />  
       </Routes>
-    </Router>  
+     
     </div>
+    </UserProvider>
+    </Router> 
   )
 }
 
