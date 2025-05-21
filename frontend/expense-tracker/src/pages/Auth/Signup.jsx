@@ -25,6 +25,8 @@ const Signup = () => {
 
   const handleSignup = async(e) => {
     e.preventDefault();
+
+    let profileImageUrl = '';
   
 
 
@@ -42,7 +44,7 @@ const Signup = () => {
   
     setError(null);
 
-     let profileImageUrl = '';
+     
     // if (profilePic) {
     //   profileImage = URL.createObjectURL(profilePic);
     // }
@@ -60,6 +62,9 @@ const Signup = () => {
       const imgUploadRes = await uploadImage(profilePic);
       profileImageUrl = imgUploadRes.imageUrl || "";
     }
+
+    console.log("Profile Image URL:", profileImageUrl);
+
 
     const response = await axiosInstance.post(API_PATHS.AUTH.REGISTER, {
       fullName,
